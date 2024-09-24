@@ -16,7 +16,7 @@ import os
 
 # Connect to the database and load the data
 #db_path = r"C:\Users\Legion-pc-polimi\OneDrive - Politecnico di Milano\Altro\Volley\Conco2324\Palau\Ritorno\2024-04-13 - Serie B1F A - Rit - Giornata 22 - CENTEMERO CONCOR MB Vs CAPO D ORSO PALAU SS - 3-2.db"
-db_path = r"C:\Users\mirko\Documents\GitHub\AceDashboard\scout\Amichevole - CLERICIAUTO CABIATE CO Vs PALLAVOLO CONCOREZZO - 1-3.db"
+db_path = r"scout\Amichevole - CLERICIAUTO CABIATE CO Vs PALLAVOLO CONCOREZZO - 1-3.db"
 conn = sqlite3.connect(db_path)
 event_df = pd.read_sql_query("SELECT * FROM event", conn)
 # Query to get all tables
