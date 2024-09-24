@@ -12,10 +12,11 @@ import plotly.graph_objs as go
 import pandas as pd
 import sqlite3
 import plotly.express as px
+import os
 
 # Connect to the database and load the data
 #db_path = r"C:\Users\Legion-pc-polimi\OneDrive - Politecnico di Milano\Altro\Volley\Conco2324\Palau\Ritorno\2024-04-13 - Serie B1F A - Rit - Giornata 22 - CENTEMERO CONCOR MB Vs CAPO D ORSO PALAU SS - 3-2.db"
-db_path = r"C:\Users\mirko\OneDrive - Politecnico di Milano\Altro\Volley\Conco2324\Palau\Ritorno\2024-04-13 - Serie B1F A - Rit - Giornata 22 - CENTEMERO CONCOR MB Vs CAPO D ORSO PALAU SS - 3-2.db"
+db_path = r"C:\Users\mirko\Documents\GitHub\AceDashboard\scout\Amichevole - CLERICIAUTO CABIATE CO Vs PALLAVOLO CONCOREZZO - 1-3.db"
 conn = sqlite3.connect(db_path)
 event_df = pd.read_sql_query("SELECT * FROM event", conn)
 # Query to get all tables
@@ -114,7 +115,7 @@ app.layout = dbc.Container([
             dcc.Dropdown(
                 id='team-dropdown',
                 options=[{'label': team, 'value': team} for team in teams_unique],
-                value='CENTEMERO CONCOR. MB', ## To be changed!
+                value='CLERICIAUTO CABIATE CO', ## To be changed!
                 clearable=False
             )
         ], width=3),
@@ -324,4 +325,5 @@ def update_setter_distribution(pos_palleggiatore, team_selected, skill_selected)
 
 # Run the app
 if __name__ == '__main__':
-    app.run_server(host='192.168.1.9', port=8050)
+    #app.run_server(host='192.168.1.9', port=8050)
+    app.run_server(host='0.0.0.0', port=int(os.environ.get('PORT', 8050)))
