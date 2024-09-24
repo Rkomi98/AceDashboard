@@ -6,8 +6,6 @@ atomicwrites==1.4.1
 attrs==24.2.0
 autopep8==2.0.4
 babel==2.14.0
-backports==1.0
-backports.tarfile==1.0.0
 bcrypt==4.2.0
 beautifulsoup4==4.12.3
 binaryornot==0.4.4
