@@ -13,10 +13,8 @@ import sqlite3
 import plotly.express as px
 import os
 
-# db_path = "scout/Amichevole - CLERICIAUTO CABIATE CO Vs PALLAVOLO CONCOREZZO - 1-3.db"
-# Construct the path to the database file
-db_filename = 'Amichevole - CLERICIAUTO CABIATE CO Vs PALLAVOLO CONCOREZZO - 1-3.db'
-db_path = os.path.join(os.getcwd(), 'scout', db_filename)
+db_path = "Amichevole - CLERICIAUTO CABIATE CO Vs PALLAVOLO CONCOREZZO - 1-3.db"
+
 
 print(f"Attempting to connect to database at: {db_path}")
 print(f"Current working directory: {os.getcwd()}")
