@@ -65,7 +65,8 @@ def calculate_metrics(group):
     return pd.Series({'efficiency': efficiency, 'positivity': positivity, 'total': total})
 
 # Calculate metrics for each player and skill
-player_metrics = event_df.groupby(['IP_player', 'skill', 'team']).apply(calculate_metrics).reset_index()
+#player_metrics = event_df.groupby(['IP_player', 'skill', 'team']).apply(calculate_metrics).reset_index()
+player_metrics = event_df.groupby(['IP_player', 'skill', 'team']).apply(calculate_metrics).reset_index(drop=True)
 # Merge player metrics with player data to get player names
 merged_df = player_metrics.merge(dataframes['player'], left_on='IP_player', right_on='id', how='left')
 merged_df = merged_df.merge(dataframes['team'], left_on='team', right_on='id', how='left')
