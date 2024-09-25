@@ -18,8 +18,12 @@ import os
 #db_path = r"C:\Users\Legion-pc-polimi\OneDrive - Politecnico di Milano\Altro\Volley\Conco2324\Palau\Ritorno\2024-04-13 - Serie B1F A - Rit - Giornata 22 - CENTEMERO CONCOR MB Vs CAPO D ORSO PALAU SS - 3-2.db"
 # db_path = "scout/Amichevole - CLERICIAUTO CABIATE CO Vs PALLAVOLO CONCOREZZO - 1-3.db"
 # Construct the path to the database file
+# Get the directory of the current script file
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the full path to the database file in the 'scout' folder
 db_filename = 'Amichevole - CLERICIAUTO CABIATE CO Vs PALLAVOLO CONCOREZZO - 1-3.db'
-db_path = os.path.join(os.getcwd(), 'scout', db_filename)
+db_path = os.path.join(script_dir, 'scout', db_filename)
 
 try:
     conn = sqlite3.connect(db_path)
@@ -67,6 +71,7 @@ def calculate_metrics(group):
 # Calculate metrics for each player and skill
 #player_metrics = event_df.groupby(['IP_player', 'skill', 'team']).apply(calculate_metrics).reset_index()
 player_metrics = event_df.groupby(['IP_player', 'skill', 'team']).apply(calculate_metrics).reset_index(drop=True)
+
 # Merge player metrics with player data to get player names
 merged_df = player_metrics.merge(dataframes['player'], left_on='IP_player', right_on='id', how='left')
 merged_df = merged_df.merge(dataframes['team'], left_on='team', right_on='id', how='left')
