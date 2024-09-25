@@ -4,7 +4,6 @@ Created on Tue Aug  6 14:37:21 2024
 
 @author: Legion-pc-polimi
 """
-
 import dash
 from dash import dcc, html, Input, Output
 import dash_bootstrap_components as dbc
@@ -14,10 +13,14 @@ import sqlite3
 import plotly.express as px
 import os
 
-# Connect to the database and load the data
-#db_path = r"C:\Users\Legion-pc-polimi\OneDrive - Politecnico di Milano\Altro\Volley\Conco2324\Palau\Ritorno\2024-04-13 - Serie B1F A - Rit - Giornata 22 - CENTEMERO CONCOR MB Vs CAPO D ORSO PALAU SS - 3-2.db"
-db_path = "*/scout/Amichevole - CLERICIAUTO CABIATE CO Vs PALLAVOLO CONCOREZZO - 1-3.db"
+# db_path = "scout/Amichevole - CLERICIAUTO CABIATE CO Vs PALLAVOLO CONCOREZZO - 1-3.db"
+# Construct the path to the database file
+db_filename = 'Amichevole - CLERICIAUTO CABIATE CO Vs PALLAVOLO CONCOREZZO - 1-3.db'
+db_path = os.path.join(os.getcwd(), 'scout', db_filename)
 
+print(f"Attempting to connect to database at: {db_path}")
+print(f"Current working directory: {os.getcwd()}")
+print(f"Contents of current directory: {os.listdir(os.getcwd())}")
 
 try:
     conn = sqlite3.connect(db_path)
@@ -34,8 +37,9 @@ try:
         query = f"SELECT * FROM {table_name}"
         dataframes[table_name] = pd.read_sql_query(query, conn)
     conn.close()
-except sqlite3.OperationalError:
+except sqlite3.OperationalError as e:
     print(f"Error: Unable to connect to the database at {db_path}")
+    print(f"Error message: {str(e)}")
     # Create dummy data for testing
     event_df = pd.DataFrame(columns=['IP_fondamentale', 'IP_player', 'team', 'mark'])
     dataframes = {'player': pd.DataFrame(columns=['id', 'name']), 'team': pd.DataFrame(columns=['id', 'name'])}
@@ -63,8 +67,7 @@ def calculate_metrics(group):
     return pd.Series({'efficiency': efficiency, 'positivity': positivity, 'total': total})
 
 # Calculate metrics for each player and skill
-#player_metrics = event_df.groupby(['IP_player', 'skill', 'team']).apply(calculate_metrics).reset_index()
-player_metrics = event_df.groupby(['IP_player', 'skill', 'team']).apply(calculate_metrics).reset_index(drop=True)
+player_metrics = event_df.groupby(['IP_player', 'skill', 'team'], as_index=False).apply(calculate_metrics)
 
 # Merge player metrics with player data to get player names
 merged_df = player_metrics.merge(dataframes['player'], left_on='IP_player', right_on='id', how='left')
@@ -333,7 +336,8 @@ def update_setter_distribution(pos_palleggiatore, team_selected, skill_selected)
     '''
     return fig
 
-# Run the app
+# Modify the server configuration
+server = app.server
+
 if __name__ == '__main__':
-    #app.run_server(host='192.168.1.9', port=8050)
-    app.run_server(host='0.0.0.0', port=int(os.environ.get('PORT', 8050)))
+    app.run_server(debug=True)
