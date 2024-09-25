@@ -13,7 +13,7 @@ import sqlite3
 import plotly.express as px
 import os
 
-db_path = "Amichevole - CLERICIAUTO CABIATE CO Vs PALLAVOLO CONCOREZZO - 1-3.db"
+db_path = "scoutC.db"
 
 
 print(f"Attempting to connect to database at: {db_path}")
