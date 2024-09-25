@@ -16,21 +16,31 @@ import os
 
 # Connect to the database and load the data
 #db_path = r"C:\Users\Legion-pc-polimi\OneDrive - Politecnico di Milano\Altro\Volley\Conco2324\Palau\Ritorno\2024-04-13 - Serie B1F A - Rit - Giornata 22 - CENTEMERO CONCOR MB Vs CAPO D ORSO PALAU SS - 3-2.db"
-db_path = r"scout\Amichevole - CLERICIAUTO CABIATE CO Vs PALLAVOLO CONCOREZZO - 1-3.db"
-conn = sqlite3.connect(db_path)
-event_df = pd.read_sql_query("SELECT * FROM event", conn)
-# Query to get all tables
-table_query = "SELECT name FROM sqlite_master WHERE type='table';"
-tables = pd.read_sql_query(table_query, conn)
+# db_path = "scout/Amichevole - CLERICIAUTO CABIATE CO Vs PALLAVOLO CONCOREZZO - 1-3.db"
+# Construct the path to the database file
+db_filename = 'Amichevole - CLERICIAUTO CABIATE CO Vs PALLAVOLO CONCOREZZO - 1-3.db'
+db_path = os.path.join(os.getcwd(), 'scout', db_filename)
 
-# Create a dictionary to store dataframes
-dataframes = {}
+try:
+    conn = sqlite3.connect(db_path)
+    event_df = pd.read_sql_query("SELECT * FROM event", conn)
+    # Query to get all tables
+    table_query = "SELECT name FROM sqlite_master WHERE type='table';"
+    tables = pd.read_sql_query(table_query, conn)
 
-# Extract each table into a pandas dataframe
-for table_name in tables['name']:
-    query = f"SELECT * FROM {table_name}"
-    dataframes[table_name] = pd.read_sql_query(query, conn)
-conn.close()
+    # Create a dictionary to store dataframes
+    dataframes = {}
+
+    # Extract each table into a pandas dataframe
+    for table_name in tables['name']:
+        query = f"SELECT * FROM {table_name}"
+        dataframes[table_name] = pd.read_sql_query(query, conn)
+    conn.close()
+except sqlite3.OperationalError:
+    print(f"Error: Unable to connect to the database at {db_path}")
+    # Create dummy data for testing
+    event_df = pd.DataFrame(columns=['IP_fondamentale', 'IP_player', 'team', 'mark'])
+    dataframes = {'player': pd.DataFrame(columns=['id', 'name']), 'team': pd.DataFrame(columns=['id', 'name'])}
 
 # Map IP_fondamentale to skill names
 skill_mapping = {
