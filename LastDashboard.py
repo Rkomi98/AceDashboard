@@ -87,10 +87,10 @@ setter_actions.rename(columns={'name': 'Team'}, inplace=True)
 #setter_actionsA = setter_actions[setter_actions['team'] == 26]
 
 groupings = {
-    '1': ['A1', 'M1', 'T1', 'S1'],
-    '2': ['A2', 'M2', 'T2', 'S2'],
-    '4': ['A4', 'M4', 'T4', 'S4'],
-    '6': ['A6', 'M6', 'S6'],
+    '1': ['M1', 'T1', 'S1'], #'A1' not considered
+    '2': ['M2', 'T2', 'S2','OP'],
+    '4': ['M4', 'T4', 'S4'],
+    '6': ['M6', 'S6'], #A6 not considered
     '3': ['V1', 'V7', 'F1', 'VC', 'F2', 'V2']
 }
 
