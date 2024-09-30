@@ -14,7 +14,7 @@ import plotly.express as px
 import os
 
 #db_path = "scoutC.db"
-db_filename = "scoutC.db"
+db_filename = "scout/scoutC.db"
 db_path = os.path.abspath(os.path.join(os.getcwd(), db_filename))
 
 print(f"Attempting to connect to database at: {db_path}")
